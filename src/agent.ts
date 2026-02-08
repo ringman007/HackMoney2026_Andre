@@ -1,7 +1,15 @@
 import OpenAI from 'openai';
 import type { Portfolio, TargetAllocation, RebalanceStrategy } from './types.js';
 
-const openai = new OpenAI();
+// Lazy initialization to avoid error when OPENAI_API_KEY is not set
+let openai: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!openai) {
+    openai = new OpenAI();
+  }
+  return openai;
+}
 
 const SYSTEM_PROMPT = `You are a DeFi portfolio rebalancing agent. Your job is to analyze a user's multi-chain crypto portfolio and generate a rebalancing strategy.
 
@@ -98,7 +106,7 @@ Output only valid JSON matching the schema described.
   console.log('─'.repeat(50));
 
   try {
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: 'gpt-4o',
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },

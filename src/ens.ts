@@ -1,5 +1,6 @@
-import { createPublicClient, http, normalize } from 'viem';
+import { createPublicClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
+import { normalize } from 'viem/ens';
 
 // Create a public client for ENS resolution (always on mainnet)
 const client = createPublicClient({
