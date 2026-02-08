@@ -1,0 +1,32 @@
+{
+  "name": "chainhopper-agent",
+  "version": "1.0.0",
+  "description": "AI-powered cross-chain portfolio rebalancing agent",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts"
+  },
+  "keywords": [
+    "ai",
+    "defi",
+    "cross-chain",
+    "lifi",
+    "ens",
+    "rebalancing",
+    "agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "openai": "^4.52.0",
+    "viem": "^2.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.15.0",
+    "typescript": "^5.5.0"
+  }
+}
