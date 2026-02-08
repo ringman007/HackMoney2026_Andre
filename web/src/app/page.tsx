@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 
 interface Chain {
   id: number;
@@ -47,6 +49,7 @@ interface Quote {
 }
 
 export default function Home() {
+  const { address: connectedAddress, isConnected } = useAccount();
   const [wallet, setWallet] = useState('vitalik.eth');
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
@@ -55,6 +58,13 @@ export default function Home() {
   const [strategy, setStrategy] = useState<Strategy | null>(null);
   const [quotes, setQuotes] = useState<{ action: RebalanceAction; quote: Quote | null }[]>([]);
   const [error, setError] = useState('');
+
+  // Use connected wallet address if available
+  useEffect(() => {
+    if (isConnected && connectedAddress) {
+      setWallet(connectedAddress);
+    }
+  }, [isConnected, connectedAddress]);
 
   const targetAllocation = { ETH: 40, USDC: 40, WETH: 20 };
 
@@ -135,13 +145,24 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white p-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            🚀 ChainHopper Agent
-          </h1>
-          <p className="text-gray-400 text-lg">AI-Powered Cross-Chain Portfolio Rebalancer</p>
+        {/* Header with Wallet Connect */}
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              🚀 ChainHopper Agent
+            </h1>
+            <p className="text-gray-400">AI-Powered Cross-Chain Portfolio Rebalancer</p>
+          </div>
+          <ConnectButton />
         </div>
+
+        {/* Connected Status */}
+        {isConnected && (
+          <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-3 mb-6 flex items-center gap-2">
+            <span className="text-green-400">●</span>
+            <span className="text-green-300 text-sm">Wallet connected - ready to execute transactions</span>
+          </div>
+        )}
 
         {/* Input Section */}
         <div className="bg-gray-800/50 backdrop-blur rounded-2xl p-6 mb-8 border border-gray-700">
