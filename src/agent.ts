@@ -45,10 +45,21 @@ Example output:
       "toToken": "USDC",
       "amount": "500000000",
       "amountFormatted": "500 USDC"
+    },
+    {
+      "type": "swap",
+      "fromChain": 1,
+      "toChain": 1,
+      "fromToken": "USDT",
+      "toToken": "USDC",
+      "amount": "100000000",
+      "amountFormatted": "100 USDT"
     }
   ],
-  "reasoning": "Portfolio has 70% on Ethereum vs target 50%. Moving 500 USDC to Arbitrum to better distribute across chains."
-}`;
+  "reasoning": "Portfolio is 70% on Ethereum vs target 50%. Moving 500 USDC to Arbitrum to better distribute across chains."
+}
+
+IMPORTANT: For swaps on the same chain, fromChain and toChain must be the same chain ID (e.g., both 1 for Ethereum).`;
 
 /**
  * Format portfolio for AI prompt
